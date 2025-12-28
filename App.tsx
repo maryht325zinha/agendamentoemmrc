@@ -4,7 +4,7 @@ import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
 import Auth from './components/Auth';
 import { User, Booking } from './types';
-import { storageService } from './agendamentoemmrc/services/storageService';
+import { storageService } from './services/storageService';
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);

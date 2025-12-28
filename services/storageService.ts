@@ -1,6 +1,6 @@
 
 import { supabase } from './supabaseClient';
-import { Booking, User } from '../../types';
+import { Booking, User } from '../types';
 
 export const storageService = {
   // Bookings
