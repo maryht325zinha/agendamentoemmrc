@@ -1,0 +1,6 @@
+
+{
+  "name": "AgendamentosEMMRC - Sistema de Agendamento Escolar",
+  "description": "Um sistema intuitivo para professores reservarem recursos escolares como tablets, projetores e salas especiais, com validação de conflitos em tempo real.",
+  "requestFramePermissions": []
+}
