@@ -21,8 +21,9 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
         setError(null);
 
         try {
+            console.log("Tentando autenticar com URL:", supabase.auth.admin ? 'Configurado' : 'Chaves pendentes');
             if (isSignUp) {
-                const { error: signUpError } = await supabase.auth.signUp({
+                const { data, error: signUpError } = await supabase.auth.signUp({
                     email,
                     password,
                     options: {
@@ -33,7 +34,12 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                     },
                 });
                 if (signUpError) throw signUpError;
-                alert('Confirme seu e-mail para ativar sua conta!');
+
+                if (data.user && data.session === null) {
+                    alert('Conta criada! Verifique seu e-mail (inclusive SPAM) para confirmar o cadastro e poder entrar.');
+                } else {
+                    onLogin();
+                }
             } else {
                 const { error: signInError } = await supabase.auth.signInWithPassword({
                     email,
@@ -43,7 +49,12 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                 onLogin();
             }
         } catch (err: any) {
-            setError(err.message || 'Ocorreu um erro na autenticação.');
+            console.error('Erro detalhado de Auth:', err);
+            if (err.message === 'Failed to fetch') {
+                setError('Erro de conexão: Não foi possível alcançar o banco de dados. Verifique as chaves na Vercel.');
+            } else {
+                setError(err.message || 'Ocorreu um erro na autenticação.');
+            }
         } finally {
             setLoading(false);
         }
